@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- default namespace for elements: cgn -->
+<config xmlns="https://github.com/fourier/ctt" 
+        xmlns:ctt="https://github.com/fourier/ctt">
+  <!-- script with command line arguments -->
+  <test-run name="Generation of POJO">
+    <command-line executable="./genpojos_tool.sh">
+      <argument>example.xml</argument>
+      <argument>example_main.xsl</argument>
+    </command-line>
+    <output>
+      <file generated="gen/com/mycompany/example/WorkPackage.java"
+            expected="test/com/mycompany/example/WorkPackage.java"/>
+      <file generated="gen/com/veroveli/example/PersonalUserData.java"
+            expected="gen/com/veroveli/example/PersonalUserData.java"/>
+      <file generated="gen/com/veroveli/example/Employee.java"
+            expected="gen/com/veroveli/example/Employee.java"/>
+      <file generated="gen/com/veroveli/protocol/Company.java"
+            expected="gen/com/veroveli/protocol/Company.java"/>
+      <file generated="gen/com/veroveli/example/Buffer.java"
+            expected="gen/com/veroveli/example/Buffer.java"/>
+      <file generated="gen/com/veroveli/example/UserName.java"
+            expected="gen/com/veroveli/example/UserName.java"/>
+      <file generated="gen/com/veroveli/messages/Person.java"
+            expected="gen/com/veroveli/messages/Person.java"/>
+      <file generated="gen/com/veroveli/messages/Conversation.java"
+            expected="gen/com/veroveli/messages/Conversation.java"/>
+      <file generated="gen/com/veroveli/messages/Conversations.java"
+            expected="gen/com/veroveli/messages/Conversations.java"/>
+      <file generated="gen/com/veroveli/messages/Entry.java"
+            expected="gen/com/veroveli/messages/Entry.java"/>
+    </output>
+  </test-run>
+
+  <!-- script with parser but without command line arguments -->
+  <test-run name="Generation of POJO and parsers">
+    <command-line executable="./genpojos_and_parser.sh"/>
+    <output>
+      <file generated="gen/com/mycompany/example/WorkPackage.java"
+            expected="test/com/mycompany/example/WorkPackage.java"/>
+      <file generated="gen/com/veroveli/example/PersonalUserData.java"
+            expected="gen/com/veroveli/example/PersonalUserData.java"/>
+      <file generated="gen/com/veroveli/example/Employee.java"
+            expected="gen/com/veroveli/example/Employee.java"/>
+      <file generated="gen/com/veroveli/protocol/Company.java"
+            expected="gen/com/veroveli/protocol/Company.java"/>
+      <file generated="gen/com/veroveli/example/Buffer.java"
+            expected="gen/com/veroveli/example/Buffer.java"/>
+      <file generated="gen/com/veroveli/example/UserName.java"
+            expected="gen/com/veroveli/example/UserName.java"/>
+      <file generated="gen/com/veroveli/messages/Person.java"
+            expected="gen/com/veroveli/messages/Person.java"/>
+      <file generated="gen/com/veroveli/messages/Conversation.java"
+            expected="gen/com/veroveli/messages/Conversation.java"/>
+      <file generated="gen/com/veroveli/messages/Conversations.java"
+            expected="gen/com/veroveli/messages/Conversations.java"/>
+      <file generated="gen/com/veroveli/messages/Entry.java"
+            expected="gen/com/veroveli/messages/Entry.java"/>
+      <!-- JSON parsers generated -->
+      <file generated="gen/com/veroveli/example/parser/ObjectsParser.java"
+            expected="gen/com/veroveli/example/parser/ObjectsParser.java"/>
+      <file generated="gen/com/veroveli/example/generator/ObjectsGenerator.java"
+            expected="gen/com/veroveli/example/generator/ObjectsGenerator.java"/>
+    </output>
+  </test-run>
+
+  
+</config>
+
+
+  
