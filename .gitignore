@@ -26,15 +26,12 @@ proguard/
 *.log
 
 # Idea project files
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/uiDesigner.xml
+.idea/
 *.iws
 *.ipr
+*.iml
 out/
 
 # Mac files
 .DS_Store
 
-# cgn generated file
-.dummy.xml
