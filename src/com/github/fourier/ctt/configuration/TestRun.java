@@ -3,7 +3,7 @@
  *   This file and its contents are Confidential./>
  *       
  */
-package com.github.fourier.ctt;
+package com.github.fourier.ctt.configuration;
 
 
 import org.w3c.dom.Element;
@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -55,31 +56,6 @@ public class TestRun {
         return output;
     }
 
-    private void exec() throws IOException {
-        String fileName = getCommandLine().getExecutable();
-        ProcessBuilder builder = new ProcessBuilder( fileName, "example.xml", "example_main.xsl");
-        builder.directory( new File(getCommandLine().getDirectory()).getAbsoluteFile() );
-        builder.redirectErrorStream(true);
-        Process process =  builder.start();
-
-        Scanner s = new Scanner(process.getInputStream());
-        StringBuilder text = new StringBuilder();
-        while (s.hasNextLine()) {
-            text.append(s.nextLine());
-            text.append("\n");
-        }
-        s.close();
-
-        System.out.println(text);
-        int result = 0;
-        try {
-            result = process.waitFor();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Done with errorCode " + result);
-    }
-
     /*
      * Getters 
      */
@@ -91,7 +67,7 @@ public class TestRun {
         return this.mCommandLine;
     }
 
-    public java.util.ArrayList<TestFile> getOutput() {
+    public List<TestFile> getOutput() {
         return this.mOutput;
     }
 

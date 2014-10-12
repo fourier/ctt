@@ -13,23 +13,23 @@
       <file generated="gen/com/mycompany/example/WorkPackage.java"
             expected="test/com/mycompany/example/WorkPackage.java"/>
       <file generated="gen/com/veroveli/example/PersonalUserData.java"
-            expected="gen/com/veroveli/example/PersonalUserData.java"/>
+            expected="test/com/veroveli/example/PersonalUserData.java"/>
       <file generated="gen/com/veroveli/example/Employee.java"
-            expected="gen/com/veroveli/example/Employee.java"/>
+            expected="test/com/veroveli/example/Employee.java"/>
       <file generated="gen/com/veroveli/protocol/Company.java"
-            expected="gen/com/veroveli/protocol/Company.java"/>
+            expected="test/com/veroveli/protocol/Company.java"/>
       <file generated="gen/com/veroveli/example/Buffer.java"
-            expected="gen/com/veroveli/example/Buffer.java"/>
+            expected="test/com/veroveli/example/Buffer.java"/>
       <file generated="gen/com/veroveli/example/UserName.java"
-            expected="gen/com/veroveli/example/UserName.java"/>
+            expected="test/com/veroveli/example/UserName.java"/>
       <file generated="gen/com/veroveli/messages/Person.java"
-            expected="gen/com/veroveli/messages/Person.java"/>
+            expected="test/com/veroveli/messages/Person.java"/>
       <file generated="gen/com/veroveli/messages/Conversation.java"
-            expected="gen/com/veroveli/messages/Conversation.java"/>
+            expected="test/com/veroveli/messages/Conversation.java"/>
       <file generated="gen/com/veroveli/messages/Conversations.java"
-            expected="gen/com/veroveli/messages/Conversations.java"/>
+            expected="test/com/veroveli/messages/Conversations.java"/>
       <file generated="gen/com/veroveli/messages/Entry.java"
-            expected="gen/com/veroveli/messages/Entry.java"/>
+            expected="test/com/veroveli/messages/Entry.java"/>
     </output>
   </test-run>
 
@@ -41,28 +41,28 @@
       <file generated="gen/com/mycompany/example/WorkPackage.java"
             expected="test/com/mycompany/example/WorkPackage.java"/>
       <file generated="gen/com/veroveli/example/PersonalUserData.java"
-            expected="gen/com/veroveli/example/PersonalUserData.java"/>
+            expected="test/com/veroveli/example/PersonalUserData.java"/>
       <file generated="gen/com/veroveli/example/Employee.java"
-            expected="gen/com/veroveli/example/Employee.java"/>
+            expected="test/com/veroveli/example/Employee.java"/>
       <file generated="gen/com/veroveli/protocol/Company.java"
-            expected="gen/com/veroveli/protocol/Company.java"/>
+            expected="test/com/veroveli/protocol/Company.java"/>
       <file generated="gen/com/veroveli/example/Buffer.java"
-            expected="gen/com/veroveli/example/Buffer.java"/>
+            expected="test/com/veroveli/example/Buffer.java"/>
       <file generated="gen/com/veroveli/example/UserName.java"
-            expected="gen/com/veroveli/example/UserName.java"/>
+            expected="test/com/veroveli/example/UserName.java"/>
       <file generated="gen/com/veroveli/messages/Person.java"
-            expected="gen/com/veroveli/messages/Person.java"/>
+            expected="test/com/veroveli/messages/Person.java"/>
       <file generated="gen/com/veroveli/messages/Conversation.java"
-            expected="gen/com/veroveli/messages/Conversation.java"/>
+            expected="test/com/veroveli/messages/Conversation.java"/>
       <file generated="gen/com/veroveli/messages/Conversations.java"
-            expected="gen/com/veroveli/messages/Conversations.java"/>
+            expected="test/com/veroveli/messages/Conversations.java"/>
       <file generated="gen/com/veroveli/messages/Entry.java"
-            expected="gen/com/veroveli/messages/Entry.java"/>
+            expected="test/com/veroveli/messages/Entry.java"/>
       <!-- JSON parsers generated -->
       <file generated="gen/com/veroveli/example/parser/ObjectsParser.java"
-            expected="gen/com/veroveli/example/parser/ObjectsParser.java"/>
+            expected="test/com/veroveli/example/parser/ObjectsParser.java"/>
       <file generated="gen/com/veroveli/example/generator/ObjectsGenerator.java"
-            expected="gen/com/veroveli/example/generator/ObjectsGenerator.java"/>
+            expected="test/com/veroveli/example/generator/ObjectsGenerator.java"/>
     </output>
   </test-run>
 

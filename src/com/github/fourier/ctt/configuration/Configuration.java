@@ -1,4 +1,4 @@
-package com.github.fourier.ctt;
+package com.github.fourier.ctt.configuration;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexeyv on 04/10/14.
@@ -21,7 +22,7 @@ public class Configuration {
 
     private ArrayList<TestRun> mTestRuns;
 
-    Configuration(String xmlConfigFile) throws IOException, SAXException, ParserConfigurationException {
+    public Configuration(String xmlConfigFile) throws IOException, SAXException, ParserConfigurationException {
         // Get the DOM Builder Factory
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         // Get the DOM Builder
@@ -37,7 +38,9 @@ public class Configuration {
         fileInputStream.close();
     }
 
-
+    public List<TestRun> getTestRuns() {
+        return mTestRuns;
+    }
 
 
     private static ArrayList<TestRun> parseTestRunsNode(Node node) throws ParserConfigurationException, IOException, SAXException {

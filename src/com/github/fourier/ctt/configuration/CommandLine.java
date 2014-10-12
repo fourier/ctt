@@ -3,7 +3,7 @@
  *   This file and its contents are Confidential./>
  *       
  */
-package com.github.fourier.ctt;
+package com.github.fourier.ctt.configuration;
 
 
 import org.w3c.dom.Element;
@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generated from example.xml on 4/10/2014
@@ -52,7 +53,7 @@ public class CommandLine {
         return this.mDirectory;
     }
 
-    public java.util.ArrayList<String> getArguments() {
+    public List<String> getArguments() {
         return this.mArguments;
     }
 
@@ -72,6 +73,13 @@ public class CommandLine {
     public CommandLine setArguments(java.util.ArrayList<String> arguments) {
         this.mArguments = arguments;
         return this;
+    }
+
+    public List<String> asList() {
+        ArrayList<String> commandLine = new ArrayList<String>();
+        commandLine.add(getExecutable());
+        commandLine.addAll(getArguments());
+        return commandLine;
     }
 
 }

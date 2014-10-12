@@ -3,7 +3,7 @@
  *   This file and its contents are Confidential./>
  *       
  */
-package com.github.fourier.ctt;
+package com.github.fourier.ctt.configuration;
 
 
 import org.w3c.dom.Node;
