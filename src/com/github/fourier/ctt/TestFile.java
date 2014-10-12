@@ -6,6 +6,7 @@
 package com.github.fourier.ctt;
 
 
+import org.w3c.dom.Node;
 
 /**
  * Generated from example.xml on 4/10/2014
@@ -17,6 +18,11 @@ public class TestFile {
      */
     private String mGenerated;
     private String mExpected;
+
+    public TestFile(Node node) {
+        setGenerated(node.getAttributes().getNamedItem("generated").getNodeValue());
+        setExpected(node.getAttributes().getNamedItem("expected").getNodeValue());
+    }
 
     /*
      * Getters 

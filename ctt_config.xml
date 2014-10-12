@@ -4,7 +4,8 @@
         xmlns:ctt="https://github.com/fourier/ctt">
   <!-- script with command line arguments -->
   <test-run name="Generation of POJO">
-    <command-line executable="./genpojos_tool.sh">
+    <command-line executable="./genpojos_tool.sh"
+                  directory="test">
       <argument>example.xml</argument>
       <argument>example_main.xsl</argument>
     </command-line>
@@ -34,7 +35,8 @@
 
   <!-- script with parser but without command line arguments -->
   <test-run name="Generation of POJO and parsers">
-    <command-line executable="./genpojos_and_parser.sh"/>
+    <command-line executable="./genpojos_and_parser.sh"
+                  directory="test"/>
     <output>
       <file generated="gen/com/mycompany/example/WorkPackage.java"
             expected="test/com/mycompany/example/WorkPackage.java"/>
@@ -68,4 +70,4 @@
 </config>
 
 
-  
+

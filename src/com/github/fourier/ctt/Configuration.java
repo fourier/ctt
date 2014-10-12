@@ -37,62 +37,10 @@ public class Configuration {
         fileInputStream.close();
     }
 
-    public static TestFile parseTestFileNode(Node node) {
-        TestFile testFile = new TestFile();
-        testFile.setGenerated(node.getAttributes().getNamedItem("generated").getNodeValue());
-        testFile.setExpected(node.getAttributes().getNamedItem("expected").getNodeValue());
-        return testFile;
-    }
 
-    public static CommandLine parseCommandLineNode(Node node) {
-        CommandLine cmdLine = new CommandLine();
-        cmdLine.setExecutable(node.getAttributes().getNamedItem("executable").getNodeValue());
 
-        ArrayList<String> arguments = new ArrayList<String>();
-        NodeList cmdLineChildren = node.getChildNodes();
-        for (int i = 0; i < cmdLineChildren.getLength(); ++ i) {
-            Node cmdLineChild = cmdLineChildren.item(i);
-            if (cmdLineChild instanceof Element) {
-                if (cmdLineChild.getNodeName().equals("argument")) {
-                    arguments.add(cmdLineChild.getLastChild().getTextContent().trim());
-                }
-            }
-        }
-        cmdLine.setArguments(arguments);
-        return cmdLine;
-    }
 
-    public static ArrayList<TestFile> parseOutputNode(Node node) {
-        ArrayList<TestFile> output = new ArrayList<TestFile>();
-        NodeList outputChildren = node.getChildNodes();
-        for (int k = 0; k < outputChildren.getLength(); ++ k) {
-            Node fileNode = outputChildren.item(k);
-            if (fileNode instanceof Element && fileNode.getNodeName().equals("file"))
-                output.add(parseTestFileNode(fileNode));
-        }
-        return output;
-    }
-
-    public static TestRun parseTestRunNode(Node node) {
-        TestRun testRun = new TestRun();
-        // 1. Get the name attribute
-        testRun.setName(node.getAttributes().getNamedItem("name").getNodeValue());
-        // 2. Iterate through all children to get remaining fields
-        NodeList childNodes = node.getChildNodes();
-        for (int j = 0; j < childNodes.getLength(); j++) {
-            Node cNode = childNodes.item(j);
-            if (cNode instanceof Element) {
-                if (cNode.getNodeName().equals("command-line")) {
-                    testRun.setCommandLine(parseCommandLineNode(cNode));
-                } else if (cNode.getNodeName().equals("output")) {
-                    testRun.setOutput(parseOutputNode(cNode));
-                }
-            }
-        }
-        return testRun;
-    }
-
-    public static ArrayList<TestRun> parseTestRunsNode(Node node) throws ParserConfigurationException, IOException, SAXException {
+    private static ArrayList<TestRun> parseTestRunsNode(Node node) throws ParserConfigurationException, IOException, SAXException {
 
         // Iterating through the nodes and extracting the data.
         ArrayList<TestRun> testRuns = new ArrayList<TestRun>();
@@ -103,7 +51,7 @@ public class Configuration {
                 // found TestRun element, let's create and set the instance
                 // of TestRun class
                 if (cNode.getNodeName().equals("test-run")) {
-                    testRuns.add(parseTestRunNode(cNode));
+                    testRuns.add(new TestRun(cNode));
                 }
             }
         }
