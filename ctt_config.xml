@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- default namespace for elements: cgn -->
+<!-- default namespace for elements: ctt -->
 <config xmlns="https://github.com/fourier/ctt" 
         xmlns:ctt="https://github.com/fourier/ctt">
   <!-- script with command line arguments -->
