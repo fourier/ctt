@@ -23,8 +23,7 @@ public class Application {
                 for (TestRun tr : testRuns) {
                     System.out.println("Test Run: " + tr.getName());
                     TestRunner runner = new TestRunner(tr);
-                    int result = runner.exec();
-                    System.out.println("Done with errorCode " + result);
+                    runner.exec();
                 }
                 System.out.println("Done");
             }
