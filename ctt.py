@@ -24,27 +24,29 @@ class FileComparator(object):
   def compare(self):
     return filecmp.cmp(self.left, self.right, shallow=False)
 
-class Output(object):
+class Expected(object):
   """ Base class for expected output """
   DEFAULT_FILTERS = []
   def __init__(self, expected, filters = None):
     self.expected = expected
-    self.filters = filters.split(",") if filters else Output.DEFAULT_FILTERS
+    self.filters = filters.split(",") if filters else Expected.DEFAULT_FILTERS
     
-class FileOutput(Output):
+class FileExpected(Expected):
   """ inner class with simple fields """
   def __init__(self, generated, expected, filters = None):
-    super(FileOutput, self).__init__(expected, filters)
+    super(FileExpected, self).__init__(expected, filters)
     self.generated = generated
     
   def __str__(self):
     result = "Generated: " + self.generated + ", expected: " + self.expected
     return result + ", filters: " + ", ".join(self.filters)
 
-class StdoutOutput(Output):
+class StdOutExpected(Expected):
   """ inner class with simple fields """
-  def __init__(self, expected, filters = None):
-    super(FileOutput, self).__init__(expected, filters)
+  def __init__(self, expected, fname = None, filters = None):
+    super(StdOutExpected, self).__init__(expected, filters)
+    self.fname = None
+    if fname: self.fname = fname
     
   def __str__(self):
     result = "Expected: " + self.expected
@@ -83,8 +85,17 @@ class TestRun(object):
       files = output.findall("{https://github.com/fourier/ctt}file")
       for f in files:
         filters = f.attrib.get("filters")
-        result.append(FileOutput(f.attrib.get("generated"), f.attrib.get("expected"), 
+        result.append(FileExpected(f.attrib.get("generated"), f.attrib.get("expected"), 
                              filters if filters else default_filters))
+    return result
+
+  def output_stdout(self):
+    result = None
+    stdout = self.element.find("{https://github.com/fourier/ctt}stdout")
+    if stdout is not None:
+      result = StdOutExpected(stdout.text,
+                              stdout.attrib.get("file"),
+                              stdout.attrib.get("filters"))
     return result
 
       
@@ -148,15 +159,39 @@ class TestRunner(object):
       raise TestRunner.TestRunnerException(self, str(e))
     errorcode = runner.returncode
     stderr = runner.stderr.read()
-    stderr = stderr.split("\n") if stderr else []
+    stderr = stderr.splitlines() if stderr else []
     stdout = runner.stdout.read()
-    stdout = stdout.split("\n") if stdout else []
+    stdout = stdout.splitlines() if stdout else []
     if errorcode != 0:
       raise TestRunner.TestRunnerException(self, "Performed with error code " + str(errorcode), stdout, stderr)
+    # compare stdout
+    self.compare_stdout(directory, stdout, stderr)
     # compare files
-    self.compare(directory, stdout, stderr)
+    self.compare_files(directory, stdout, stderr)
 
-  def compare(self, basedir, stdout, stderr):
+  def compare_stdout(self, directory, stdout, stderr):
+    expect = self.config.output_stdout()
+    expected_lines = []
+    if not expect:
+      return
+    exc = TestRunner.TestRunnerException(self, "Output do not match", stdout, stderr)
+    # get expected lines
+    if expect.fname:
+      fname = os.path.join(directory, expect.fname) if not os.path.abspath(expect.fname) else expect.fname
+      if not os.path.exists(fname):
+        raise TestRunner.TestRunnerException(self, "File " + fname + " does not exist")
+      expected_lines = open(fname,"r").read().splitlines()
+      exc = TestRunner.TestRunnerException(self, "Output do not match to contents of the " + fname, stdout, stderr)
+    else:
+      expected_lines = expect.text.splitlines()
+    # now comparte with stdout
+    if len(stdout) != len(expected_lines):
+      raise exc
+    for i in range(len(stdout)):
+      if stdout[i] != expected_lines[i]:
+        raise exc
+
+  def compare_files(self, basedir, stdout, stderr):
     output_files = self.config.output_files()
     for o in output_files:
       gen = o.generated
@@ -199,8 +234,6 @@ def main():
         if e.stderr:
           print("Error output:")
           for l in e.stderr: print(l)
-
-  print("Done")
 
 if __name__ == '__main__':
   main()
