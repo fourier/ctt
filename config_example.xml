@@ -17,12 +17,12 @@
   </test-run-->
 
   <test-run name="Generation of POJO">
-    <command-line executable="./genpojos_tool.sh1"
-                  directory="test">
+    <command-line executable="./genpojos_tool.sh"
+                  directory="test1">
       <argument>example.xml</argument>
       <argument>example_main.xsl</argument>
     </command-line>
-    <output>
+    <output filters="date">
       <file generated="gen/com/mycompany/example/WorkPackage.java"
             expected="test/com/mycompany/example/WorkPackage.java"/>
       <file generated="gen/com/veroveli/example/PersonalUserData.java"
@@ -47,9 +47,9 @@
   </test-run>
 
   <!-- script with parser but without command line arguments -->
-  <test-run name="Generation of POJO and parsers">
-    <command-line executable="./genpojos_and_parser.sh"
-                  directory="test"/>
+  <test-run name="Generation POJO and parsers">
+    <command-line executable="./run_tests1.sh"
+                  directory="test/test"/>
     <output>
       <file generated="gen/com/mycompany/example/WorkPackage.java"
             expected="test/com/mycompany/example/WorkPackage.java"/>
@@ -79,6 +79,40 @@
     </output>
   </test-run>
 
+    <!-- script with parser but without command line arguments -->
+  <test-run name="cgn preprocess test">
+    <command-line executable="./run_tests.sh"
+                  directory="test/test"/>
+    <output>
+      <file generated="cgn_phase1_test_result.xml"
+            expected="cgn_phase1_test_expected.xml"/>
+      <file generated="cgn_phase2_test_result.xml"
+            expected="cgn_phase2_test_expected.xml"/>
+      <file generated="cgn_phase3_test_result.xml"
+            expected="cgn_phase3_test_expected.xml"/>
+      <file generated="cgn_phase4_test_result.xml"
+            expected="cgn_phase4_test_expected.xml"/>
+      <file generated="cgn_phase5_test_result.xml"
+            expected="cgn_phase5_test_expected.xml"/>
+
+      <file generated="jcgn_phase1_test_result.xml"
+            expected="jcgn_phase1_test_expected.xml"/>
+      <file generated="jcgn_phase2_test_result.xml"
+            expected="jcgn_phase2_test_expected.xml"/>
+      <file generated="jcgn_phase3_test_result.xml"
+            expected="jcgn_phase3_test_expected.xml"/>
+      <file generated="jcgn_phase4_test_result.xml"
+            expected="jcgn_phase4_test_expected.xml"/>
+      <file generated="jcgn_phase5_test_result.xml"
+            expected="jcgn_phase5_test_expected.xml"/>
+      <file generated="jcgn_phase6_test_result.xml"
+            expected="jcgn_phase6_test_expected.xml"/>
+      <file generated="jcgn_phase7_test_result.xml"
+            expected="jcgn_phase7_test_expected.xml"/>
+    </output>
+  </test-run>
+
+  
   
 </config>
 
