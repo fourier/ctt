@@ -24,17 +24,30 @@ class FileComparator(object):
   def compare(self):
     return filecmp.cmp(self.left, self.right, shallow=False)
 
-  
 class Output(object):
-  """ inner class with simple fields """
+  """ Base class for expected output """
   DEFAULT_FILTERS = []
-  def __init__(self, generated, expected, filters = None):
-    self.generated = generated
+  def __init__(self, expected, filters = None):
     self.expected = expected
     self.filters = filters.split(",") if filters else Output.DEFAULT_FILTERS
     
+class FileOutput(Output):
+  """ inner class with simple fields """
+  def __init__(self, generated, expected, filters = None):
+    super(FileOutput, self).__init__(expected, filters)
+    self.generated = generated
+    
   def __str__(self):
     result = "Generated: " + self.generated + ", expected: " + self.expected
+    return result + ", filters: " + ", ".join(self.filters)
+
+class StdoutOutput(Output):
+  """ inner class with simple fields """
+  def __init__(self, expected, filters = None):
+    super(FileOutput, self).__init__(expected, filters)
+    
+  def __str__(self):
+    result = "Expected: " + self.expected
     return result + ", filters: " + ", ".join(self.filters)
 
     
@@ -63,14 +76,14 @@ class TestRun(object):
       return "."
     return pwd
 
-  def outputs(self):
+  def output_files(self):
     result = []
     for output in self.element.findall("{https://github.com/fourier/ctt}output"):
       default_filters = output.attrib.get("filters")
       files = output.findall("{https://github.com/fourier/ctt}file")
       for f in files:
         filters = f.attrib.get("filters")
-        result.append(Output(f.attrib.get("generated"), f.attrib.get("expected"), 
+        result.append(FileOutput(f.attrib.get("generated"), f.attrib.get("expected"), 
                              filters if filters else default_filters))
     return result
 
@@ -103,7 +116,7 @@ class TestRunner(object):
 
   def remove_generated_files(self):
     """ Remove generated files to clean the test run """
-    for output in self.config.outputs():
+    for output in self.config.output_files():
       try:
         os.remove(output.generated)
       except OSError,e:
@@ -113,9 +126,9 @@ class TestRunner(object):
     print("Test run: " + self.config.name)
     print(" - Command line: " + " ".join(self.config.command_line()))
     print(" - Directory: " + self.config.directory())
-    outputs = self.config.outputs()
+    output_files = self.config.output_files()
     print(" - Files: ")
-    for o in outputs: print("    - " + str(o))   
+    for o in output_files: print("    - " + str(o))   
   
   def perform(self):
     """ execute the test run """
@@ -144,8 +157,8 @@ class TestRunner(object):
     self.compare(directory, stdout, stderr)
 
   def compare(self, basedir, stdout, stderr):
-    outputs = self.config.outputs()
-    for o in outputs:
+    output_files = self.config.output_files()
+    for o in output_files:
       gen = o.generated
       if not os.path.isabs(gen): gen = os.path.join(basedir, gen)
       test = o.expected
@@ -176,6 +189,7 @@ def main():
       # execute test run
       try: 
         runner = TestRunner(tr)
+        print("Running \"" + runner.config.name + "\"")
         runner.perform()
       except TestRunner.TestRunnerException, e:
         print("Test Run \"" + e.name + "\", error: " + str(e))
