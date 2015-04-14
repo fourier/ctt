@@ -5,4 +5,4 @@ This is the simple test tool aimed to test programs producing file outputs. If o
 ```
 python ctt.py config.xml
 ```
-where config.xml describes which program to run, the files are generated and the files expected.
+where **config.xml** describes which program to run, the files are generated and the files expected(see the [config_example.xml](https://github.com/fourier/ctt/blob/master/config_example.xml))
