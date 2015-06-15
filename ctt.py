@@ -5,13 +5,15 @@ import subprocess
 import os
 import difflib
 import filecmp
+import re
+from itertools import izip, ifilter
 
 # Sources: http://stackoverflow.com/questions/16275402/ignoring-lines-while-comparing-files-using-python
 # https://docs.python.org/2/library/difflib.html
 
 class FileComparator(object):
-  """ Helper class to compare files considering filters """
-  def __init__(self, file1, file2, filters):
+  """ Helper class to compare files considering ignore_regexp """
+  def __init__(self, file1, file2, ignore_regexp):
     # check if files exist
     if not os.path.exists(file1):
       raise Exception("File " + file1 + " does not exist")
@@ -19,38 +21,44 @@ class FileComparator(object):
       raise Exception("File " + file2 + " does not exist")
     self.left = file1
     self.right = file2
-    self.filters = filters
+    self.ignore_regexp = ignore_regexp
 
   def compare(self):
-    return filecmp.cmp(self.left, self.right, shallow=False)
+    if self.ignore_regexp == None:
+      return filecmp.cmp(self.left, self.right, shallow=False)
+    else:
+      p = re.compile(self.ignore_regexp)
+      with open(self.left) as f1, open(self.right) as f2:
+        f1 = ifilter(lambda x: not(p.search(x)), f1)
+        f2 = ifilter(lambda x: not(p.search(x)), f2)
+        return all(x == y for x, y in izip(f1, f2))
 
 class Expected(object):
   """ Base class for expected output """
-  DEFAULT_FILTERS = []
-  def __init__(self, expected, filters = None):
+  def __init__(self, expected, ignore_regexp = None):
     self.expected = expected
-    self.filters = filters.split(",") if filters else Expected.DEFAULT_FILTERS
+    self.ignore_regexp = ignore_regexp
     
 class FileExpected(Expected):
   """ inner class with simple fields """
-  def __init__(self, generated, expected, filters = None):
-    super(FileExpected, self).__init__(expected, filters)
+  def __init__(self, generated, expected, ignore_regexp = None):
+    super(FileExpected, self).__init__(expected, ignore_regexp)
     self.generated = generated
     
   def __str__(self):
     result = "Generated: " + self.generated + ", expected: " + self.expected
-    return result + ", filters: " + ", ".join(self.filters)
+    return result + ", ignore_regexp: " + "'" + self.ignore_regexp + "'"
 
 class StdOutExpected(Expected):
   """ inner class with simple fields """
-  def __init__(self, expected, fname = None, filters = None):
-    super(StdOutExpected, self).__init__(expected, filters)
+  def __init__(self, expected, fname = None, ignore_regexp = None):
+    super(StdOutExpected, self).__init__(expected, ignore_regexp)
     self.fname = None
     if fname: self.fname = fname
     
   def __str__(self):
     result = "Expected: " + self.expected
-    return result + ", filters: " + ", ".join(self.filters)
+    return result + ", ignore_regexp: " + "'" + self.ignore_regexp + "'"
 
     
 class TestRun(object):
@@ -81,12 +89,12 @@ class TestRun(object):
   def output_files(self):
     result = []
     for output in self.element.findall("{https://github.com/fourier/ctt}output"):
-      default_filters = output.attrib.get("filters")
+      default_ignore_regexp = output.attrib.get("ignore")
       files = output.findall("{https://github.com/fourier/ctt}file")
       for f in files:
-        filters = f.attrib.get("filters")
+        ignore_regexp = f.attrib.get("ignore")
         result.append(FileExpected(f.attrib.get("generated"), f.attrib.get("expected"), 
-                             filters if filters else default_filters))
+                             ignore_regexp if ignore_regexp else default_ignore_regexp))
     return result
 
   def output_stdout(self):
@@ -95,7 +103,7 @@ class TestRun(object):
     if stdout is not None:
       result = StdOutExpected(stdout.text,
                               stdout.attrib.get("file"),
-                              stdout.attrib.get("filters"))
+                              stdout.attrib.get("ignore_regexp"))
     return result
 
       
@@ -199,7 +207,7 @@ class TestRunner(object):
       test = o.expected
       if not os.path.isabs(test): test = os.path.join(basedir, test)
       try:
-        comp = FileComparator(test, gen, o.filters)
+        comp = FileComparator(test, gen, o.ignore_regexp)
         if not comp.compare():
           raise TestRunner.TestRunnerException(self, "Files " + gen + " and " + test + " does not match", stdout, stderr)
       except Exception,e:
