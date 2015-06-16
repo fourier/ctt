@@ -103,7 +103,7 @@ class TestRun(object):
     if stdout is not None:
       result = StdOutExpected(stdout.text,
                               stdout.attrib.get("file"),
-                              stdout.attrib.get("ignore_regexp"))
+                              stdout.attrib.get("ignore"))
     return result
 
       
@@ -242,6 +242,7 @@ def main():
         if e.stderr:
           print("Error output:")
           for l in e.stderr: print(l)
+        exit(1)
 
 if __name__ == '__main__':
   main()
