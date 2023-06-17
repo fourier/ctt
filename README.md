@@ -1,8 +1,11 @@
-## Compare Test Tool
-This is the simple test tool aimed to test programs producing file outputs. If one need to implement some text file comparison-based tests, the **ctt** helps to organize it.
+# Give Up GitHub
 
-### Usage
-```
-python ctt.py config.xml
-```
-where **config.xml** describes which program to run, the files are generated and the files expected(see the [config_example.xml](https://github.com/fourier/ctt/blob/master/config_example.xml))
+This project has given up GitHub.  ([See Software Freedom Conservancy's *Give Up  GitHub* site for details](https://GiveUpGitHub.org).)
+
+You can now find this project at [https://codeberg.org/fourier/ctt](https://codeberg.org/fourier/ctt) instead.
+
+Any use of this project's code by GitHub Copilot, past or present, is done without our permission.  We do not consent to GitHub's use of this project's code in Copilot.
+
+Join us; you can [give up GitHub](https://GiveUpGitHub.org) too!
+
+![Logo of the GiveUpGitHub campaign](https://sfconservancy.org/img/GiveUpGitHub.png)
